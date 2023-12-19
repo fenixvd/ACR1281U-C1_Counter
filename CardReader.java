@@ -32,7 +32,7 @@ public class CardReader {
                 // Проверить статус ошибки
                 int sw = initResponse.getSW();
                 if (sw != 0x9000) {
-                    System.out.println("Ошибка: номер статуса = " + Integer.toHexString(sw));
+                    System.out.println("Ошибка инициализации: номер статуса = " + Integer.toHexString(sw));
                 } else {
                     // Получить данные ответа
                     responseData = initResponse.getData();
@@ -43,7 +43,7 @@ public class CardReader {
                         sb.append(String.format("%02X ", b));
                     }
 
-                    System.out.println("Ответ: " + sb.toString());
+                    System.out.println("Ответ инициализации: " + sb.toString());
                 }
 
                 // Отправить команду чтения счетчика вставки карты
@@ -54,7 +54,7 @@ public class CardReader {
                 // Проверить статус
                 sw = readResponse.getSW();
                 if (sw != 0x9000) {
-                    System.out.println("Ошибка: номер статуса = " + Integer.toHexString(sw));
+                    System.out.println("Ошибка чтения: номер статуса = " + Integer.toHexString(sw));
                 } else {
                     // Получить данные ответа
                     responseData = readResponse.getData();
@@ -65,11 +65,13 @@ public class CardReader {
                         sb.append(String.format("%02X ", b));
                     }
 
-                    System.out.println("Ответ: " + sb.toString());
+                    System.out.println("Ответ чтения: " + sb.toString());
                 }
             }
+        } catch (CardException e) {
+            System.out.println("Ошибка карты: " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 }
